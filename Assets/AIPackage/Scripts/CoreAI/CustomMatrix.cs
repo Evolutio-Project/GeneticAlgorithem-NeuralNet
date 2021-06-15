@@ -48,7 +48,7 @@ public class CustomMatrix
            for (int j=0; j<colums; j++)
             {
                 float mutationChance = Random.Range(0.0f,1f);
-                if(mutationRate >= mutationChance)
+                if(mutationRate > mutationChance)
                 {
                     data[i][j] = Random.Range(-1f,1f);
                 }

@@ -47,14 +47,17 @@ public class NeuralNetwork
         
         //Debug.Log("this is a test " );
         //change them up by the mutation rate
-        for(int layer=1; layer<weights.Length; layer++)
+        if(mutationRate > 0 )
         {
-            
+            for(int layer=1; layer<weights.Length; layer++)
+            {
+                
 
 
-            weights[layer].RandomizeSometimes(mutationRate);
-            
-            biases[layer].RandomizeSometimes(mutationRate);
+                weights[layer].RandomizeSometimes(mutationRate);
+                
+                biases[layer].RandomizeSometimes(mutationRate);
+            }
         }
 
     }    

@@ -80,7 +80,7 @@ public class PopulationController : MonoBehaviour
         for(int i=0;population.Count < populationSize;i++)
         {
             GameObject go1 = Instantiate(creaturePrefab, start.position, Quaternion.identity);
-            go1.GetComponent<GeneticPathfinder>().InitCreature(new NeuralNetwork (survivors[Random.Range(0,(int)survivorCut)].dna,0.01f));
+            go1.GetComponent<GeneticPathfinder>().InitCreature(new NeuralNetwork (survivors[Random.Range(0,(int)survivorCut)].dna,0.0f));
             population.Add(go1.GetComponent<GeneticPathfinder>());
 
             print("new fitnesses: "+ population[i].fitness);

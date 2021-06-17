@@ -9,7 +9,7 @@ public class PopulationController : MonoBehaviour
     //public int geneomeLength;
     public float cutoff = .3f;
     public GameObject creaturePrefab;
-    public Transform start;
+    public Transform start; 
     public float bestFitness = 0;
     //public Transform end;
     
@@ -33,16 +33,17 @@ public class PopulationController : MonoBehaviour
             go.GetComponent<GeneticPathfinder>().InitCreature();
             population.Add(go.GetComponent<GeneticPathfinder>()); 
         }
+        print("special " + population[0].dna.weights[1].data[1][0] );
+
+        
+        
     }
 
     void NextGeneration()
     {
         int survivorCut = Mathf.RoundToInt(populationSize * cutoff);
         List<GeneticPathfinder> survivors = new List<GeneticPathfinder>();
-        foreach(GeneticPathfinder gp in population)
-        {
-            print("old fitnesses: "+gp.fitness);
-        }
+        
         //pick best creatures
         for(int i=0; i< survivorCut; i++)
         { 
@@ -50,13 +51,13 @@ public class PopulationController : MonoBehaviour
             if(i==0){
                 
                 
-                if(survivors[i].fitness > bestFitness)
+                if(survivors[i].fitness() > bestFitness)
                 {
-                    //print(survivors[i].fitness +" is better than: "+bestFitness);      
-                    bestFitness = survivors[i].fitness;
+                    //print(survivors[i].fitness() +" is better than: "+bestFitness);      
+                    bestFitness = survivors[i].fitness();
                 }
             }
-            print(survivors[i].fitness);
+            print(survivors[i].fitness());
         }
         
         print("survivor cut: " + survivorCut);
@@ -75,37 +76,49 @@ public class PopulationController : MonoBehaviour
         g.GetComponent<GeneticPathfinder>().InitCreature(survivors[0].dna);
         population.Add(g.GetComponent<GeneticPathfinder>());
 
-        print("new gen copy: " + population[0].fitness);
+        print("new gen copy: " + population[0].fitness());
+
+       
+
 
         for(int i=0;population.Count < populationSize;i++)
         {
             GameObject go1 = Instantiate(creaturePrefab, start.position, Quaternion.identity);
-            go1.GetComponent<GeneticPathfinder>().InitCreature(new NeuralNetwork (survivors[Random.Range(0,(int)survivorCut)].dna,0.1f));
+            go1.GetComponent<GeneticPathfinder>().InitCreature(new NeuralNetwork (survivors[Random.Range(0,(int)survivorCut)].dna,0.01f));
             population.Add(go1.GetComponent<GeneticPathfinder>());
 
-            print("new fitnesses: "+ population[i].fitness);
+            //print("new fitnesses: "+ population[i].dna.weights[1]);
 
-            if(population[0].fitness != bestFitness)
+            
+            
+            if(population[0].fitness() != bestFitness)
             {
                 print("added to index: " +population.Count);
-                print("why: " +population[0].fitness+ " " +bestFitness);
+                print("why: " +population[0].fitness()+ " " +bestFitness);
+                Debug.Break();
+                return;
             }
         }
 
+        // NeuralNetwork oldBest = new NeuralNetwork(population[0].dna);
+        // population[0].dna.weights[1].data[1][0] = 12;
 
-        if(population[0].fitness < bestFitness)
-        {
-            foreach(GeneticPathfinder gp in population)
-            {
-                print("last fitnesses: "+gp.fitness);
-            }
-            // foreach(GeneticPathfinder gp in survivors)
-            // {
-            //     print("last fitnesses: "+gp.fitness);
-            // }
-            Debug.Break();
-            return;
-        }
+        // print("special " + population[0].dna.weights[1].data[1][0] + " | " + oldBest.weights[1].data[1][0]);
+        
+        // if(population[0].dna.weights[1].data[1][0] != oldBest.weights[1].data[1][0])
+        // {
+        //     foreach(GeneticPathfinder gp in population)
+        //     {
+        //         print("last fitnesses: "+gp.fitness());
+        //     }
+        //     // foreach(GeneticPathfinder gp in survivors)
+        //     // {
+        //     //     print("last fitnesses: "+gp.fitness());
+        //     // }
+        //     Debug.Break();
+        //     return;
+        // }
+        
 
 
         //delete old survivors list 
@@ -123,15 +136,14 @@ public class PopulationController : MonoBehaviour
         int index = 1;
         for(int i=0; i< population.Count; i++)
         {
-            if(population[i].fitness > maxFitness)
+            if(population[i].fitness() > maxFitness)
             {
-                print(population[i].fitness  +" is better than: "+maxFitness);
-                maxFitness = population[i].fitness;
+                maxFitness = population[i].fitness();
                 index = i;
             }
             
         }
-        print("end loop");
+        //print("end loop");
         GeneticPathfinder fittest = population[index];
         if(forNextGen == true){
             population.Remove(fittest);

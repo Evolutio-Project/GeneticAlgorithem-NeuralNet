@@ -37,29 +37,26 @@ public class NeuralNetwork
     }
 
     // 
-    public NeuralNetwork(NeuralNetwork parent, float mutationRate = .01f)
+    public NeuralNetwork(NeuralNetwork original, float mutationRate = .01f)
     {
-        //copy parent features
-        weights = parent.weights;
-        biases = parent.biases;
-        layers = parent.layers;
-        learningRate = parent.learningRate;
+        //copy original features
+        weights = new CustomMatrix[original.weights.Length]; //new matrix for each layer
+        biases = new CustomMatrix[original.biases.Length];
+        layers = original.layers;
+        learningRate = original.learningRate;      
         
-        //Debug.Log("this is a test " );
         //change them up by the mutation rate
         if(mutationRate > 0 )
         {
             for(int layer=1; layer<weights.Length; layer++)
             {
-                
-
-
+                weights[layer] = new CustomMatrix(original.weights[layer]); 
                 weights[layer].RandomizeSometimes(mutationRate);
                 
+                biases[layer] = new CustomMatrix(original.biases[layer]);
                 biases[layer].RandomizeSometimes(mutationRate);
             }
         }
-
     }    
 
     public float[] FeedForward(float[] _inputs)

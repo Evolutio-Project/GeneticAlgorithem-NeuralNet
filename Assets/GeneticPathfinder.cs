@@ -28,7 +28,7 @@ public class GeneticPathfinder : MonoBehaviour
         StartCoroutine(Duration());
     }
     public IEnumerator Duration(){
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.05f);
         hasFinished = true;
     }
     public NeuralNetwork InitCreature(NeuralNetwork parent = null)
@@ -56,21 +56,20 @@ public class GeneticPathfinder : MonoBehaviour
     
     // error is basicly inverted fitness so:  
     [SerializeField]
-    private float _fitness;  
-    public float fitness
+    //private float _fitness;  
+    public float fitness() /// for some reason this does not change with the weights of my neuralnet
     {
-        get
-        {
-            _fitness = 0;
-            
-            for(int i =0; i<trainingData.Length; i++)
-            {       
-                _fitness +=   trainingData[i].targets[0] -dna.FeedForward(trainingData[i].inputs)[0];
-            }
-            //_fitness = Mathf.Abs(_fitness);
-            //print("thing" + _fitness);
-            if(_fitness == 0){_fitness = .00001f;}
-            return 1/_fitness;
+        
+        float _fitness = 0;
+        
+        for(int i =0; i<trainingData.Length; i++)
+        {       
+            _fitness +=   trainingData[i].targets[0] -dna.FeedForward(trainingData[i].inputs)[0];
         }
+        //_fitness = Mathf.Abs(_fitness);
+        // //print("thing" + _fitness);
+        if(_fitness == 0){_fitness = .00001f;}
+        return 1/_fitness;
+        
     }
 }

@@ -31,15 +31,36 @@ public class CustomMatrix
         }
     }
 
-    public void Randomize()
+    public CustomMatrix(CustomMatrix original)
+    {
+        rows = original.rows;
+        colums = original.colums;
+        
+        data = new float[rows][];
+        for (int i=0; i<rows; i++)
+        {
+           data[i] = new float[colums];
+           
+           for (int j=0; j<colums; j++)
+            {
+               data[i][j] = original.data[i][j];
+            } 
+        }
+    }
+
+    public void Randomize(bool test = false)
     {
         for (int i=0; i<rows; i++)
         {   
            for (int j=0; j<colums; j++)
             {
+               if(test == true && i==1 && j==0){Debug.Log("hi: " + data[i][j] );}
                data[i][j] = Random.Range(-1f,1f);
+               
+               if(test == true && i==1 && j==0){Debug.Log("hi: " + data[i][j] );}
             } 
         }
+        
     }
     public void RandomizeSometimes(float mutationRate)
     {

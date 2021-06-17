@@ -36,7 +36,7 @@ public class XorTileGrid : MonoBehaviour
     }
     public IEnumerator thing() {
         while (true){
-            //FeedForwardUpdate(population.GetFittest(false).dna);
+            FeedForwardUpdate(population.GetFittest(false).dna);
             //print("test");
             yield return new WaitForSeconds(.05f);
             

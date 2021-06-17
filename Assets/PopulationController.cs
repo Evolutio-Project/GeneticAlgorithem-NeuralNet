@@ -50,17 +50,17 @@ public class PopulationController : MonoBehaviour
             survivors.Add(GetFittest());
             if(i==0){
                 
-                
+                print(survivors[i].fitness());
                 if(survivors[i].fitness() > bestFitness)
                 {
                     //print(survivors[i].fitness() +" is better than: "+bestFitness);      
                     bestFitness = survivors[i].fitness();
                 }
             }
-            print(survivors[i].fitness());
+            
         }
         
-        print("survivor cut: " + survivorCut);
+       
 
 
         //kill current population
@@ -84,20 +84,20 @@ public class PopulationController : MonoBehaviour
         for(int i=0;population.Count < populationSize;i++)
         {
             GameObject go1 = Instantiate(creaturePrefab, start.position, Quaternion.identity);
-            go1.GetComponent<GeneticPathfinder>().InitCreature(new NeuralNetwork (survivors[Random.Range(0,(int)survivorCut)].dna,0.01f));
+            go1.GetComponent<GeneticPathfinder>().InitCreature(new NeuralNetwork (survivors[Random.Range(0,(int)survivorCut)].dna,.01f));
             population.Add(go1.GetComponent<GeneticPathfinder>());
 
             //print("new fitnesses: "+ population[i].dna.weights[1]);
 
             
             
-            if(population[0].fitness() != bestFitness)
-            {
-                print("added to index: " +population.Count);
-                print("why: " +population[0].fitness()+ " " +bestFitness);
-                Debug.Break();
-                return;
-            }
+            // if(population[0].fitness() != bestFitness)
+            // {
+            //     print("added to index: " +population.Count);
+            //     print("why: " +population[0].fitness()+ " " +bestFitness);
+            //     Debug.Break();
+            //     return;
+            // }
         }
 
         // NeuralNetwork oldBest = new NeuralNetwork(population[0].dna);

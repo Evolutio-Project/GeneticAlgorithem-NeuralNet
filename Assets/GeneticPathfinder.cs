@@ -28,7 +28,7 @@ public class GeneticPathfinder : MonoBehaviour
         StartCoroutine(Duration());
     }
     public IEnumerator Duration(){
-        yield return new WaitForSeconds(.05f);
+        yield return new WaitForSeconds(.005f);
         hasFinished = true;
     }
     public NeuralNetwork InitCreature(NeuralNetwork parent = null)
@@ -61,15 +61,16 @@ public class GeneticPathfinder : MonoBehaviour
     {
         
         float _fitness = 0;
-        
-        for(int i =0; i<trainingData.Length; i++)
-        {       
-            _fitness +=   trainingData[i].targets[0] -dna.FeedForward(trainingData[i].inputs)[0];
+        for(int i=0; i<4; i++)
+        {
+            int rnd =  i%4; //Random.Range(0,3);
+            _fitness += Mathf.Pow( trainingData[rnd].targets[0] - dna.FeedForward(trainingData[rnd].inputs)[0],2);
         }
+        //_fitness =   trainingData[rnd].targets[0] -dna.FeedForward(trainingData[rnd].inputs)[0];
         //_fitness = Mathf.Abs(_fitness);
         // //print("thing" + _fitness);
-        if(_fitness == 0){_fitness = .00001f;}
-        return 1/_fitness;
+        //if(_fitness == 0){_fitness = .00001f;}
+        return  1 - _fitness;
         
     }
 }

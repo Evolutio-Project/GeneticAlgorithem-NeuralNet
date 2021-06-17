@@ -71,7 +71,7 @@ public class CustomMatrix
                 float mutationChance = Random.Range(0.0f,1f);
                 if(mutationRate > mutationChance)
                 {
-                    data[i][j] = Random.Range(-1f,1f);
+                    data[i][j] = Random.Range(-4f,4f);
                 }
             } 
         }

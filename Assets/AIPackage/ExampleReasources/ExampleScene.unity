@@ -150,8 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b6f709bb215deb9f95b6b9acf96f200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  populationSize: 12
-  cutoff: 0.3
+  populationSize: 120
+  cutoff: 0.5
   creaturePrefab: {fileID: 5574859051690224905, guid: 5ae06a2fece6a40c0b4965543fd76906,
     type: 3}
   start: {fileID: 1233705667}

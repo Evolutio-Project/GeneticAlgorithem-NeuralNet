@@ -33,9 +33,6 @@ public class PopulationController : MonoBehaviour
             go.GetComponent<GeneticPathfinder>().InitCreature();
             population.Add(go.GetComponent<GeneticPathfinder>()); 
         }
-        print("special " + population[0].dna.weights[1].data[1][0] );
-
-        
         
     }
 
@@ -50,7 +47,7 @@ public class PopulationController : MonoBehaviour
             survivors.Add(GetFittest());
             if(i==0){
                 
-                print(survivors[i].fitness());
+                
                 if(survivors[i].fitness() > bestFitness)
                 {
                     //print(survivors[i].fitness() +" is better than: "+bestFitness);      
@@ -76,7 +73,7 @@ public class PopulationController : MonoBehaviour
         g.GetComponent<GeneticPathfinder>().InitCreature(survivors[0].dna);
         population.Add(g.GetComponent<GeneticPathfinder>());
 
-        print("new gen copy: " + population[0].fitness());
+        //print(" " + population[0].fitness());
 
        
 
@@ -160,7 +157,7 @@ public class PopulationController : MonoBehaviour
                 return true;
             }
         }
-        print("done");
+//        print("done");
         return false;
     }
     

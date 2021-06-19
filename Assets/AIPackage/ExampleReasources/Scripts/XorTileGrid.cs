@@ -31,7 +31,7 @@ public class XorTileGrid : MonoBehaviour
                 grid[i][j] =  Instantiate(pixelObject, pos, Quaternion.identity,gameObject.transform);
             } 
         }
-        print(grid.Length);
+        print("grid square size: " + grid.Length);
         StartCoroutine(thing());
     }
     public IEnumerator thing() {

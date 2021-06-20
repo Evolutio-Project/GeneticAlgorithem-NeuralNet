@@ -130,6 +130,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1233705667}
+  - component: {fileID: 1233705668}
   - component: {fileID: 1233705666}
   m_Layer: 0
   m_Name: GameManager
@@ -145,17 +146,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1233705665}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b6f709bb215deb9f95b6b9acf96f200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  populationSize: 120
+  populationSize: 100
   cutoff: 0.5
   creaturePrefab: {fileID: 5574859051690224905, guid: 5ae06a2fece6a40c0b4965543fd76906,
     type: 3}
   start: {fileID: 1233705667}
   bestFitness: 0
+  started: 0
 --- !u!4 &1233705667
 Transform:
   m_ObjectHideFlags: 0
@@ -170,6 +172,69 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1233705668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1233705665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed80394bb66d84656a3bc4edfccc7478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  populationController: {fileID: 1233705666}
+  TrainingMode: 1
+--- !u!1 &1800652897
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1800652899}
+  - component: {fileID: 1800652898}
+  m_Layer: 0
+  m_Name: NeuralNetVisual
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1800652898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1800652897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71916a0ebb6ade2219145b1240a101d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NeuronImg: {fileID: 784325102116053782, guid: 609c560087dff7e9ab9b8df34996cb66,
+    type: 3}
+  weightLinePrefab: {fileID: 1025615446855434793, guid: 9c52b5cc33b66c720a968963f2ef0471,
+    type: 3}
+  good: {r: 0.3764706, g: 1, b: 0.3764706, a: 1}
+  bad: {r: 1, g: 0.3764706, b: 0.3764706, a: 1}
+--- !u!4 &1800652899
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1800652897}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -12, y: -9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1870839521
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,7 +246,6 @@ GameObject:
   - component: {fileID: 1870839524}
   - component: {fileID: 1870839523}
   - component: {fileID: 1870839522}
-  - component: {fileID: 1870839525}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -224,7 +288,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -248,24 +312,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1870839521}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: -0.5, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1870839525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1870839521}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b88d59ce2c1b5a3787187ec69bb0626, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2131290126
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,7 +329,7 @@ GameObject:
   - component: {fileID: 2131290128}
   - component: {fileID: 2131290129}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: XOR Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -291,7 +343,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2131290126}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.1106096}
+  m_LocalPosition: {x: 7, y: -4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

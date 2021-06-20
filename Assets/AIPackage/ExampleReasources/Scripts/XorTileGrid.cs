@@ -28,6 +28,7 @@ public class XorTileGrid : MonoBehaviour
             {
                 
                 Vector2 pos = new Vector2((i*1)-size/2,(j*1)-size/2);
+                pos += (Vector2)transform.position;
                 grid[i][j] =  Instantiate(pixelObject, pos, Quaternion.identity,gameObject.transform);
             } 
         }
@@ -36,7 +37,9 @@ public class XorTileGrid : MonoBehaviour
     }
     public IEnumerator thing() {
         while (true){
-            FeedForwardUpdate(population.GetFittest(false).dna);
+            if(GameManager.instance.CurrentNeuralNetwork() != null){
+                FeedForwardUpdate(GameManager.instance.CurrentNeuralNetwork());
+            }
             //print("test");
             yield return new WaitForSeconds(.05f);
             

@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 1233705667}
   - component: {fileID: 1233705668}
   - component: {fileID: 1233705666}
+  - component: {fileID: 1233705669}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -151,13 +152,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b6f709bb215deb9f95b6b9acf96f200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  populationSize: 100
+  populationSize: 90
   cutoff: 0.5
   start: {fileID: 1233705667}
   bestFitness: 0
   started: 0
-  xorTileGrid: {fileID: 2131290129}
-  neuralNetDisplay: {fileID: 1800652898}
 --- !u!4 &1233705667
 Transform:
   m_ObjectHideFlags: 0
@@ -185,8 +184,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   populationController: {fileID: 1233705666}
-  TrainingMode: 1
+  backPropManager: {fileID: 1233705669}
+  TrainingMode: 2
+  xorTileGrid: {fileID: 2131290129}
+  neuralNetDisplay: {fileID: 1800652898}
+  NNShape: 020000000400000001000000
   updateRate: 0.1
+--- !u!114 &1233705669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1233705665}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65512154eb043b340bc5fb418a32d1b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xorTileGrid: {fileID: 2131290129}
 --- !u!1 &1800652897
 GameObject:
   m_ObjectHideFlags: 0

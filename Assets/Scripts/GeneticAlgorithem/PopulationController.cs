@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PopulationController : MonoBehaviour
 {
-      List<GeneticPathfinder> population = new List<GeneticPathfinder>();
+    List<GeneticPathfinder> population = new List<GeneticPathfinder>();
+    private int _populationSize;
     public int populationSize;
     //public int geneomeLength;
     public float cutoff = .3f;
@@ -12,24 +13,35 @@ public class PopulationController : MonoBehaviour
     public Transform start; 
     public float bestFitness = 0;
     public bool started;
-    
+    // public XorTileGrid xorTileGrid;
+    // public NeuralNetDisplay neuralNetDisplay;
 
     private void Start()
     {
+        _populationSize = populationSize;
         InitPopulation();
+        StartCoroutine(EvoUpdate());
         started = true;
     }
     
-    private void LateUpdate()
+    private IEnumerator EvoUpdate()
     {
-        if(!HasActive())
+        while(true)
         {
-            NextGeneration();
+            yield return new WaitForSeconds(GameManager.instance.updateRate);
+            if(!HasActive())
+            {
+                NextGeneration();
+            }
+//            print("thing");
+            // display new nerual net
+            GameManager.instance.UpdateDisplays();
+            
         }
     }
     void InitPopulation()
     {
-        for(int i=0; i< populationSize; i++)
+        for(int i=0; i< _populationSize; i++)
         {
             GeneticPathfinder go = new GeneticPathfinder();
             go.InitCreature();
@@ -40,7 +52,7 @@ public class PopulationController : MonoBehaviour
 
     void NextGeneration()
     {
-        int survivorCut = Mathf.RoundToInt(populationSize * cutoff);
+        int survivorCut = Mathf.RoundToInt(_populationSize * cutoff);
         List<GeneticPathfinder> survivors = new List<GeneticPathfinder>();
         
         //pick best creatures
@@ -75,7 +87,7 @@ public class PopulationController : MonoBehaviour
         for(int i=0;population.Count < populationSize;i++)
         {
             GeneticPathfinder gol = new GeneticPathfinder();
-            gol.InitCreature();
+            gol.InitCreature(new NeuralNetwork (survivors[Random.Range(0,(int)survivorCut)].dna,.01f));
             population.Add(gol); 
 
            
@@ -105,7 +117,15 @@ public class PopulationController : MonoBehaviour
             
         }
         //print("end loop");
-        GeneticPathfinder fittest = population[index];
+        GeneticPathfinder fittest;
+//        print(population[index]);
+        if(index > populationSize)
+        {
+            fittest = GetFittest(false);
+        }else{
+            fittest = population[index];
+        }
+        
         if(forNextGen == true){
             population.Remove(fittest);
         }
@@ -113,14 +133,14 @@ public class PopulationController : MonoBehaviour
     }
     bool HasActive()
     {
-        for (int i=0; i< population.Count; i++)
-        {
-            if(population[i].hasFinished == false)
-            {
+        // for (int i=0; i< population.Count; i++)
+        // {
+        //     if(population[i].hasFinished == false)
+        //     {
                 
-                return true;
-            }
-        }
+        //         return true;
+        //     }
+        // }
 //        print("done");
         return false;
     }

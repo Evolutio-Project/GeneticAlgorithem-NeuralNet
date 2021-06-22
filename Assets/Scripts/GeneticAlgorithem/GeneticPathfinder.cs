@@ -16,13 +16,7 @@ public class GeneticPathfinder //: MonoBehaviour //only use this for ingame fitn
     //Vector2 nextPoint;
 
 
-    static TrainData[] trainingData = new TrainData[]
-    {
-        new TrainData(new float[]{0,1},new float[]{1}),
-        new TrainData(new float[]{1,0},new float[]{1}),
-        new TrainData(new float[]{1,1},new float[]{0}),
-        new TrainData(new float[]{0,0},new float[]{0}) 
-    };
+    
     public GeneticPathfinder(NeuralNetwork parent = null)
     {
         
@@ -36,16 +30,10 @@ public class GeneticPathfinder //: MonoBehaviour //only use this for ingame fitn
     }
     public NeuralNetwork InitCreature(NeuralNetwork parent = null)
     {
-        Debug.Log("hi");
         if(parent == null)
         {
-            float[][] neuralNet = new float[3][] //layers
-            {
-                new float[2],   //input
-                new float[4],   //hidden
-                new float[1]    //output
-            };
-
+            int[] neuralNet = GameManager.instance.NNShape;
+            
             dna = new NeuralNetwork(neuralNet);
         }
         else
@@ -68,9 +56,9 @@ public class GeneticPathfinder //: MonoBehaviour //only use this for ingame fitn
         for(int i=0; i<4; i++)
         {
             int rnd =  i%4; //Random.Range(0,3);
-            _fitness += Mathf.Pow( trainingData[rnd].targets[0] - dna.FeedForward(trainingData[rnd].inputs)[0],2);
+            _fitness += Mathf.Pow( GameData.trainingData[rnd].targets[0] - dna.FeedForward(GameData.trainingData[rnd].inputs)[0],2);
         }
-        //_fitness =   trainingData[rnd].targets[0] -dna.FeedForward(trainingData[rnd].inputs)[0];
+        //_fitness =   GameData.trainingData[rnd].targets[0] -dna.FeedForward(GameData.trainingData[rnd].inputs)[0];
         //_fitness = Mathf.Abs(_fitness);
         // //print("thing" + _fitness);
         //if(_fitness == 0){_fitness = .00001f;}

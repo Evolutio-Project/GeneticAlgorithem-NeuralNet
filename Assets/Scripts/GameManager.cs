@@ -2,16 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class GameManager : MonoBehaviour
 {
     const int GENETIC = 1,BACKPROPO = 2;
     public PopulationController populationController;
+    public BackPropManager backPropManager;
     public int TrainingMode = GENETIC;
 
     public static GameManager instance;
+
+    public XorTileGrid xorTileGrid;
+    public NeuralNetDisplay neuralNetDisplay;
+    public int[] NNShape = {2,4,1};
+
     
     //private bool _NNStarted;
     public static bool NNStarted;
+    [SerializeField]
+    public float updateRate = .1f;
 
     private void Awake() {
         CurrentNeuralNetwork();
@@ -48,11 +57,24 @@ public class GameManager : MonoBehaviour
             }
         }else if(TrainingMode == BACKPROPO)
         {
-            return null;
+            if(backPropManager.enabled == false)
+            {
+                backPropManager.enabled = true;
+                return null;
+            }else{
+                NNStarted = true;
+                return backPropManager.GetNeuralNetwork();;
+            }
         }else
         {
-            return new NeuralNetwork(new float[0][]);
+            return new NeuralNetwork(new int[0]);
         }
         
+    }
+    public void UpdateDisplays()
+    {
+        
+        xorTileGrid.UpdateGrid();
+        neuralNetDisplay.UpdateWeights();
     }
 }

@@ -18,7 +18,7 @@ public class NeuralNetDisplay : MonoBehaviour
         
     }
     public IEnumerator WaitForStart() {
-        while (GameManager.NNStarted == null)
+        while (GameManager.NNStarted == false)
         {
             yield return new WaitForSeconds(.05f);
         }
@@ -35,10 +35,10 @@ public class NeuralNetDisplay : MonoBehaviour
         weightLines = new LineRenderer[currentNeuralNetwork.NNShape.Length][][];
         for(int i=1; i<weightLines.Length; i++)
         {
-            weightLines[i] = new LineRenderer[currentNeuralNetwork.NNShape[i].Length][];
+            weightLines[i] = new LineRenderer[currentNeuralNetwork.NNShape[i]][];
             for(int j=0; j<weightLines[i].Length; j++)
             {
-                weightLines[i][j] = new LineRenderer[currentNeuralNetwork.NNShape[i-1].Length];
+                weightLines[i][j] = new LineRenderer[currentNeuralNetwork.NNShape[i-1]];
             }
         }
 
@@ -47,7 +47,7 @@ public class NeuralNetDisplay : MonoBehaviour
         {
 
             //neuronPos[i] = new Vector2[currentNeuralNetwork.NNShape[i].Length];
-            for (int j=0; j<currentNeuralNetwork.NNShape[i].Length; j++)
+            for (int j=0; j<currentNeuralNetwork.NNShape[i]; j++)
             {                
                 GameObject neuron = Instantiate(NeuronImg, neuronPos[i][j], Quaternion.identity,gameObject.transform);
 
@@ -76,36 +76,32 @@ public class NeuralNetDisplay : MonoBehaviour
         }
     }
 
-    Vector2[][] PrettyPos(int width, int height, float[][] NNShape) // make the neuron line up evenly spaced
+    Vector2[][] PrettyPos(int width, int height, int[] NNShape) // make the neuron line up evenly spaced
     {
         Vector2[][] result = new Vector2[NNShape.Length][]; 
         for (int i=0; i<NNShape.Length; i++)
         {
-            result[i] = new Vector2[NNShape[i].Length];
-            for (int j=0; j<NNShape[i].Length; j++)
+            result[i] = new Vector2[NNShape[i]];
+            for (int j=0; j<NNShape[i]; j++)
             {
-                result[i][j] = new Vector2((i+1)*((float)width/(float)(NNShape.Length+1)), (j+1)*((float)height/(float)(NNShape[i].Length+1)));
+                result[i][j] = new Vector2((i+1)*((float)width/(float)(NNShape.Length+1)), (j+1)*((float)height/(float)(NNShape[i]+1)));
                 result[i][j] += (Vector2)transform.position;
             }
         }
         return result;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        UpdateWeights();
-    }
-    void UpdateWeights()
+    
+    public void UpdateWeights()
     {
         for (int layer=1; layer<currentNeuralNetwork.NNShape.Length; layer++)
         {
             //neuronPos[layer] = new Vector2[currentNeuralNetwork.NNShape[layer].Length];
-            for (int neuron=0; neuron<currentNeuralNetwork.NNShape[layer].Length; neuron++)
+            for (int neuron=0; neuron<currentNeuralNetwork.NNShape[layer]; neuron++)
             {                
                 for(int weight=0; weight<currentNeuralNetwork.weights[layer].colums; weight++)
                 {
-                    // set weights
+                    //set weights
                     weightLines[layer][neuron][weight].startWidth = GameManager.instance.CurrentNeuralNetwork().weights[layer].data[neuron][weight]/10;
                     
                     if(weightLines[layer][neuron][weight].startWidth >0 )

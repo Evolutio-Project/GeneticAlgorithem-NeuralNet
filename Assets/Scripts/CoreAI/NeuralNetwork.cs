@@ -11,13 +11,13 @@ public class NeuralNetwork
     public CustomMatrix[] biases;
     public float learningRate;
     public int layers;
-    public float [][] NNShape;
+    public int [] NNShape;
 
     // _dataIn = list of the networks layers
     // _dataIn[layer] = list of that layers neurons
     // _dataIn[layer][neuron] = list of that neurons weights
-    // _dataIn[layer][neron][weight] = that weights value.
-    public NeuralNetwork(float [][] _dataIn)
+    
+    public NeuralNetwork(int [] _dataIn)
     {
         weights = new CustomMatrix[_dataIn.Length]; //new matrix for each layer
         biases = new CustomMatrix[_dataIn.Length];
@@ -28,10 +28,10 @@ public class NeuralNetwork
         for (int layer=1; layer< _dataIn.Length; layer++)
         {
         
-            weights[layer] = new CustomMatrix(_dataIn[layer].Length,_dataIn[layer-1].Length); //assign neurons to matrix
+            weights[layer] = new CustomMatrix(_dataIn[layer],_dataIn[layer-1]); //assign neurons to matrix
             weights[layer].Randomize();
             
-            biases[layer] = new CustomMatrix(_dataIn[layer].Length,1);
+            biases[layer] = new CustomMatrix(_dataIn[layer],1);
             biases[layer].Randomize(); 
         }
 //        Debug.Log("this is a test ");

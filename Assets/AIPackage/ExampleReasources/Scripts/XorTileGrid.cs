@@ -33,17 +33,13 @@ public class XorTileGrid : MonoBehaviour
             } 
         }
         print("grid square size: " + grid.Length);
-        StartCoroutine(thing());
+        UpdateGrid();
     }
-    public IEnumerator thing() {
-        while (true){
-            if(GameManager.instance.CurrentNeuralNetwork() != null){
-                FeedForwardUpdate(GameManager.instance.CurrentNeuralNetwork());
-            }
-            //print("test");
-            yield return new WaitForSeconds(.05f);
-            
+    public void UpdateGrid() {
+        if(GameManager.instance.CurrentNeuralNetwork() != null){
+            FeedForwardUpdate(GameManager.instance.CurrentNeuralNetwork());
         }
+        //print("test");
 
     }
     public void FeedForwardUpdate(NeuralNetwork nn) 

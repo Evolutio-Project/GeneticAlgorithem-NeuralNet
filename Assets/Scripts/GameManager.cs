@@ -10,8 +10,9 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
     
-    public static bool NNStarted = false;
-    
+    //private bool _NNStarted;
+    public static bool NNStarted;
+
     private void Awake() {
         CurrentNeuralNetwork();
     }

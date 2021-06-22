@@ -8,7 +8,7 @@ public class PopulationController : MonoBehaviour
     public int populationSize;
     //public int geneomeLength;
     public float cutoff = .3f;
-    public GameObject creaturePrefab;
+    //public GameObject creaturePrefab;
     public Transform start; 
     public float bestFitness = 0;
     public bool started;
@@ -31,9 +31,9 @@ public class PopulationController : MonoBehaviour
     {
         for(int i=0; i< populationSize; i++)
         {
-            GameObject go = Instantiate(creaturePrefab, gameObject.transform);
-            go.GetComponent<GeneticPathfinder>().InitCreature();
-            population.Add(go.GetComponent<GeneticPathfinder>()); 
+            GeneticPathfinder go = new GeneticPathfinder();
+            go.InitCreature();
+            population.Add(go); 
         }
         
     }
@@ -60,31 +60,32 @@ public class PopulationController : MonoBehaviour
         }
  
         //kill current population
-        for (int i=0; i<population.Count; i++)
-        {
-            Destroy(population[i].gameObject);
-        }
+        // for (int i=0; i<population.Count; i++)
+        // {
+        //     Destroy(population[i].gameObject);
+        // }
         population.Clear();
 
         //make new population
 
-        GameObject g = Instantiate(creaturePrefab, start.position, Quaternion.identity);
-        g.GetComponent<GeneticPathfinder>().InitCreature(survivors[0].dna);
-        population.Add(g.GetComponent<GeneticPathfinder>());
+        GeneticPathfinder g = new GeneticPathfinder();
+        g.InitCreature(survivors[0].dna);
+        population.Add(g); 
 
-       for(int i=0;population.Count < populationSize;i++)
+        for(int i=0;population.Count < populationSize;i++)
         {
-            GameObject go1 = Instantiate(creaturePrefab, gameObject.transform);
-            go1.GetComponent<GeneticPathfinder>().InitCreature(new NeuralNetwork (survivors[Random.Range(0,(int)survivorCut)].dna,.01f));
-            population.Add(go1.GetComponent<GeneticPathfinder>());
+            GeneticPathfinder gol = new GeneticPathfinder();
+            gol.InitCreature();
+            population.Add(gol); 
 
            
         }
         //delete old survivors list 
-        for (int i=0; i<survivors.Count; i++)
-        {
-            Destroy(survivors[i].gameObject);
-        }
+        // for (int i=0; i<survivors.Count; i++)
+        // {
+        //     Destroy(survivors[i].gameObject);
+        // }
+        survivors.Clear();
         //Debug. Break();
     }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GeneticPathfinder : MonoBehaviour
+public class GeneticPathfinder //: MonoBehaviour //only use this for ingame fitnesses
 {
     //public float creatureSpeed;
     //public float pathMultiplier;
@@ -23,16 +23,20 @@ public class GeneticPathfinder : MonoBehaviour
         new TrainData(new float[]{1,1},new float[]{0}),
         new TrainData(new float[]{0,0},new float[]{0}) 
     };
-    private void Awake()
+    public GeneticPathfinder(NeuralNetwork parent = null)
     {
-        StartCoroutine(Duration());
+        
+        InitCreature(parent);
     }
     public IEnumerator Duration(){
+        
         yield return new WaitForSeconds(.005f);
         hasFinished = true;
+        
     }
     public NeuralNetwork InitCreature(NeuralNetwork parent = null)
     {
+        Debug.Log("hi");
         if(parent == null)
         {
             float[][] neuralNet = new float[3][] //layers

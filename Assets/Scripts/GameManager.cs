@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
             }
         }else
         {
-            return new NeuralNetwork(new int[0]);
+            return null;
         }
         
     }

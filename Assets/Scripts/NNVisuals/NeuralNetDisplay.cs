@@ -102,7 +102,7 @@ public class NeuralNetDisplay : MonoBehaviour
                 for(int weight=0; weight<currentNeuralNetwork.weights[layer].colums; weight++)
                 {
                     //set weights
-                    weightLines[layer][neuron][weight].startWidth = GameManager.instance.CurrentNeuralNetwork().weights[layer].data[neuron][weight]/10;
+                    weightLines[layer][neuron][weight].startWidth = GameManager.instance.CurrentNeuralNetwork().weights[layer].data[neuron][weight]/15;
                     
                     if(weightLines[layer][neuron][weight].startWidth >0 )
                     {

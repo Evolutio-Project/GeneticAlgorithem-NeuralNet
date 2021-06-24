@@ -18,6 +18,7 @@ public class PopulationController : MonoBehaviour
 
     private void Start()
     {
+        print("test");
         _populationSize = populationSize;
         InitPopulation();
         StartCoroutine(EvoUpdate());

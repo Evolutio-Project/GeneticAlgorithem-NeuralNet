@@ -30,7 +30,7 @@ public class NeuralNetDisplay : MonoBehaviour
     {
         currentNeuralNetwork = GameManager.instance.CurrentNeuralNetwork();
 
-        print(currentNeuralNetwork.NNShape);
+        //print(currentNeuralNetwork.NNShape);
         //set up layer organiztion
         weightLines = new LineRenderer[currentNeuralNetwork.NNShape.Length][][];
         for(int i=1; i<weightLines.Length; i++)
@@ -84,7 +84,7 @@ public class NeuralNetDisplay : MonoBehaviour
             result[i] = new Vector2[NNShape[i]];
             for (int j=0; j<NNShape[i]; j++)
             {
-                result[i][j] = new Vector2((i+1)*((float)width/(float)(NNShape.Length+1)), (j+1)*((float)height/(float)(NNShape[i]+1)));
+                result[i][j] = new Vector2((i+1)*((float)width/(float)(NNShape.Length+1)) - (width/2), (j+1)*((float)height/(float)(NNShape[i]+1)) - (height/2));
                 result[i][j] += (Vector2)transform.position;
             }
         }

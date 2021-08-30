@@ -13,6 +13,7 @@ public class PopulationController : MonoBehaviour
     public Transform start; 
     public float bestFitness = 0;
     public bool started;
+    IEnumerator evoUpdate;
     // public XorTileGrid xorTileGrid;
     // public NeuralNetDisplay neuralNetDisplay;
 
@@ -20,9 +21,11 @@ public class PopulationController : MonoBehaviour
     {
         print("test");
         _populationSize = populationSize;
+        evoUpdate = EvoUpdate();
         InitPopulation();
-        StartCoroutine(EvoUpdate());
-        started = true;
+        
+        
+        
     }
     
     private IEnumerator EvoUpdate()
@@ -30,24 +33,56 @@ public class PopulationController : MonoBehaviour
         while(true)
         {
             yield return new WaitForSeconds(GameManager.instance.updateRate);
-            if(!HasActive())
+            if(GameManager.instance.paused == false)
             {
-                NextGeneration();
+                if(!HasActive())
+                {
+                    NextGeneration();
+                }
+                //print("thing");
+                // display new nerual net
+                GameManager.instance.UpdateDisplays();
             }
-//            print("thing");
-            // display new nerual net
-            GameManager.instance.UpdateDisplays();
-            
         }
     }
-    void InitPopulation()
+    // public void InitPopulation()
+    // {
+    //     TurnOff();
+
+    //     for(int i=0; i< _populationSize; i++)
+    //     {
+    //         GeneticPathfinder go = new GeneticPathfinder();
+    //         go.InitCreature();
+    //         population.Add(go); 
+    //     }
+    //     started = true;
+    //     StartCoroutine(evoUpdate);
+        
+        
+    // }
+    public void InitPopulation(NeuralNetwork otherNN = null)
     {
-        for(int i=0; i< _populationSize; i++)
+        TurnOff();
+
+        print("the thingu" + (otherNN == null));
+        if(otherNN != null){print("yes");}
+        if(otherNN != null){
+            print("the thingt");
+            GeneticPathfinder g = new GeneticPathfinder();
+            g.InitCreature(otherNN);
+            population.Add(g); 
+            
+        }
+
+        for(int i= population.Count; i< _populationSize; i++)
         {
             GeneticPathfinder go = new GeneticPathfinder();
             go.InitCreature();
             population.Add(go); 
+            
         }
+        started = true;
+        StartCoroutine(evoUpdate);
         
     }
 
@@ -62,7 +97,7 @@ public class PopulationController : MonoBehaviour
             survivors.Add(GetFittest(true));
             if(i==0){
                 
-                
+                //print(survivors[i] +" "+started);
                 if(survivors[i].fitness() > bestFitness)
                 {
                     //print(survivors[i].fitness() +" is better than: "+bestFitness);      
@@ -72,11 +107,7 @@ public class PopulationController : MonoBehaviour
             
         }
  
-        //kill current population
-        // for (int i=0; i<population.Count; i++)
-        // {
-        //     Destroy(population[i].gameObject);
-        // }
+      
         population.Clear();
 
         //make new population
@@ -93,11 +124,7 @@ public class PopulationController : MonoBehaviour
 
            
         }
-        //delete old survivors list 
-        // for (int i=0; i<survivors.Count; i++)
-        // {
-        //     Destroy(survivors[i].gameObject);
-        // }
+       
         survivors.Clear();
         //Debug. Break();
     }
@@ -107,7 +134,7 @@ public class PopulationController : MonoBehaviour
     {
         if(started != true){return null;}
         float maxFitness = float.MinValue;
-        int index = 1;
+        int index = 0;
         for(int i=0; i< population.Count; i++)
         {
             if(population[i].fitness() > maxFitness)
@@ -120,10 +147,11 @@ public class PopulationController : MonoBehaviour
         //print("end loop");
         GeneticPathfinder fittest;
 //        print(population[index]);
-        if(index > populationSize)
+        if(index >= populationSize)
         {
             fittest = GetFittest(false);
         }else{
+            //print(index);
             fittest = population[index];
         }
         
@@ -134,16 +162,15 @@ public class PopulationController : MonoBehaviour
     }
     bool HasActive()
     {
-        // for (int i=0; i< population.Count; i++)
-        // {
-        //     if(population[i].hasFinished == false)
-        //     {
-                
-        //         return true;
-        //     }
-        // }
-//        print("done");
+       
         return false;
+    }
+    public void TurnOff()
+    {
+        started = false;
+        population.Clear();
+        StopCoroutine(evoUpdate);
+        //print("testing 1");
     }
     
 
